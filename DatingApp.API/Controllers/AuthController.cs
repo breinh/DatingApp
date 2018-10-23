@@ -50,8 +50,8 @@ namespace DatingApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
         {
-            throw new Exception("Nope!");
-            
+            //throw new Exception("Nope!");
+
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
             if (userFromRepo == null)
@@ -70,10 +70,10 @@ namespace DatingApp.API.Controllers
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+            var tokenCreate = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(tokenCreate);
 
-            return Ok(new { tokenString });
+            return Ok(new { token });
         }
     }
 }

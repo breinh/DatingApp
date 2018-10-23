@@ -2,7 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -22,6 +22,7 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
   imports: [
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     FormsModule
   ],
   providers: [

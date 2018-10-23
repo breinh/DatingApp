@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Http, Headers, RequestOptions, Response} from '@angular/http';
 // import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
@@ -9,27 +10,20 @@ export class AuthService {
     baseUrl = 'http://localhost:5000/api/auth/';
     userToken: any;
 
-constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-login(model: any) {
-    const headers = new Headers({'Content-type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
-    return this.http.post(this.baseUrl + 'login', model, options).pipe(map((response: Response) => {
-        const user = response.json();
-        if (user) {
-            localStorage.setItem('token', user.tokenString);
-            this.userToken = user.tokenString;
+    login(model: any) {
+        return this.http.post(this.baseUrl + 'login', model).pipe(
+                map((response: any) => {
+                    const user = response;
+                    if (user) {
+                        localStorage.setItem('token', user.token);
+                    }
+                })
+            );
         }
-    }));
-}
 
-register(model: any) {
-    return this.http.post(this.baseUrl + 'register', model, this.requestOptions());
-}
-
-private requestOptions() {
-    const headers = new Headers({'Content-type': 'application/json'});
-    return new RequestOptions({headers: headers});
-}
-
+    register(model: any) {
+        return this.http.post(this.baseUrl + 'register', model);
+    }
 }
